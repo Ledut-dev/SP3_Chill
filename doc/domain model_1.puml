@@ -9,13 +9,13 @@ object media
 object series
 object movie
 object category
-object library
+object mediaLibrary
 
 system *-- menu
 system *-- user
-system *-- library
-library*--- media
-library *-- searchEngine
+system *-- mediaLibrary
+mediaLibrary*--- media
+mediaLibrary *-- searchEngine
 
 media<|-- series
 media<|-- movie

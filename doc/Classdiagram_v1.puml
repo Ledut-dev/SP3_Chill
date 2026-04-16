@@ -1,0 +1,84 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!pragma layout smetana
+
+enum Category
+
+class System {
+- User currentUser
+- MediaLibrary mediaLibrary
+- Menu menu
+- ArrayList<User> allUsers
+}
+
+class MediaLibrary{
+- ArrayList<Media> allMedia
+- SearchEngine searchEngine
++ void displayArray(ArrayList<Media>)
+}
+class Menu{
+- TextUI ui
+}
+class SearchEngine{
++ ArrayList<Media> filterByCategory(Category)
++ ArrayList<Media> filterByTitle(String)
+}
+
+abstract class Media {
+# String title
+# ArrayList<Category> category
+# double rating
++ void play()
+String toString()
+}
+
+
+class Movie extends Media{
+- int releaseYear
++ String toString()
+}
+
+class Series extends Media{
+- String releasePeriod
+- ArrayList<String> seasons
++ String toString()
+}
+
+class User{
+- String username
+- String password
+- ArrayList<Media> wantToWatch
+- ArrayList<Media> watched
++ void addMediaToList(Media, ArrayList<Media>)
+}
+
+package "util" {
+class TextUI {
+- Scanner scan
++ boolean promptBinary(String msg)
++ String promptText(String msg)
++ int promptNumeric(String msg)
++ ArrayList<String> promptChoice(ArrayList<String> options, int limit, String msg)
++ void displayMessage(String msg)
++ void displayList(ArrayList<String> list, String msg)
+}
+
+class FileIO{
++ void saveData(ArrayList<String> data, String path)
++ ArrayList<String> readData(String path)
+}
+}
+
+Media *-- Category
+MediaLibrary *-- SearchEngine
+MediaLibrary *-- Media
+System *-- MediaLibrary
+System *-- User
+System *-- Menu
+System *-- TextUI
+System *-- FileIO
+Menu *---- TextUI
+
+
+@enduml
