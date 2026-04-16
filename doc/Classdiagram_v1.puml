@@ -16,14 +16,14 @@ class System {
 class MediaLibrary{
 - ArrayList<Media> allMedia
 - SearchEngine searchEngine
-+ void displayArray(ArrayList<Media>)
++ void displayArray(ArrayList<Media> list)
 }
 class Menu{
 - TextUI ui
 }
 class SearchEngine{
-+ ArrayList<Media> filterByCategory(Category)
-+ ArrayList<Media> filterByTitle(String)
++ ArrayList<Media> filterByCategory(Category category)
++ ArrayList<Media> filterByTitle(String title)
 }
 
 abstract class Media {
@@ -46,12 +46,15 @@ class Series extends Media{
 + String toString()
 }
 
+
 class User{
 - String username
 - String password
 - ArrayList<Media> wantToWatch
 - ArrayList<Media> watched
-+ void addMediaToList(Media, ArrayList<Media>)
++ User(String username, String password)
++ User(String username, String password, ArrayList<Media> wantToWatch, ArrayList<Media> watched)
++ void addMediaToList(Media media, ArrayList<Media> list)
 }
 
 package "util" {
