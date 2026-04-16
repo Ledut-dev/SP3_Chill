@@ -1,0 +1,28 @@
+@startuml
+!pragma layout smetana
+
+object system
+object menu
+object user
+object searchEngine
+object media
+object series
+object movie
+object category
+object library
+
+system *-- menu
+system *-- user
+system *-- library
+library*-- media
+library *-- searchEngine
+media*-- category
+
+media--|>series
+media--|>movie
+
+
+
+
+
+@enduml

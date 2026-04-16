@@ -1,0 +1,17 @@
+@startuml
+!pragma layout smetana
+
+actor user
+
+
+usecase "start menu" as UC1
+usecase "create user" as UC2
+usecase "log in" as UC3
+
+
+user --> UC1
+UC1 --> UC2
+UC1 --> UC3
+
+
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+
+!pragma layout smetana
+
+actor user
+
+usecase "main menu" as UC4
+usecase "search engine" as UC5
+usecase "my list" as UC6
+usecase "by category" as UC7
+usecase "by text" as UC8
+usecase "by watched" as UC9
+usecase "want to watch" as UC10
+
+
+user -> UC4
+UC4 -----> UC5
+UC4---> UC6
+UC5 -->UC7
+UC5--->UC8
+UC6-->UC9
+UC6-->UC10
+
+note left of user: "user arrives from start menu options to main menu"
+
+
+
+
+@enduml
