@@ -9,18 +9,12 @@ public class System {
     private ArrayList<User> allUsers;
     TextUI ui;
 
-    void createExistingUser (String data){
-        String [] values= data.split(",");
-        User u = new User(values[0].trim(),values[1].trim());
-
-        if (values.length>2){ //hvis der er mere end username og password gemt på en bruger
-            // skal disse tildeles hver deres arrayList watched eller wantToWatch. eller vi kan splitte på et andet symbol også
-            //først skabe to string arrays...
-
+    void createExistingUser (String userName){ //hvad gør vi med existing users arraylister?
+        String [] attribute =getUserData(userName);
+        User u = new User(attribute[0].trim(),attribute[1].trim());
+        allUsers.add(u);
         }
 
-        allUsers.add(u);
-    }
 
     void createAllUsers(ArrayList<String> data){ //igen hvad gør vi med arraylister?
         for (String s:data){
@@ -40,7 +34,7 @@ public class System {
 
     }
 
-    void createNewUser2 (String name, String password){
+    void createNewUser (String name, String password){
         User u=new User(name, password);
         allUsers.add(u);
     }
