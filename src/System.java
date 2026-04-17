@@ -31,7 +31,7 @@ public class System {
 
     }
 
-    void createNewUser(){
+    void promptCreateNewUser(){
         String userName=ui.promptText("Input username");
         String passWord=ui.promptText("input password");
 
