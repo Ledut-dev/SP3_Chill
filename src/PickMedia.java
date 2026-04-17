@@ -46,10 +46,24 @@ public class PickMedia {
 
     void createExistingUser (String userName){ //hvad gør vi med existing users arraylister?
         String [] attribute =getUserData(userName);
-        //Attribute 2 & 3 skal splittes på "," og via loop laves/tilføjes til hver sin arraylist.
-        //Da User tager String, String, ArrayList<String>, ArrayList<String>.
-        User u = new User(attribute[0].trim(),attribute[1].trim(), attribute[2],attribute[3]);
-        users.add(u);
+
+        ArrayList <String> wantToWatch = new ArrayList<>();
+        String line = attribute[2];
+        String [] titles= line.split(",");
+        for (String s: titles){
+            wantToWatch.add(s.trim());
+        }
+
+        ArrayList <String> watched = new ArrayList<>();
+        String line2 = attribute[3];
+        String [] titles2= line2.split(",");
+        for (String t: titles2){
+            watched.add(t.trim());
+            }
+
+        User u = new User(attribute[0].trim(),attribute[1].trim(), wantToWatch,watched);
+        currentUser=u;
+        //users.add(u);
     }
 
     //I tilfælde af at alle brugere skal indlæses, vi gemmer dog data via ArrayList<String>, så ikke nødvendigt.
@@ -69,13 +83,26 @@ public class PickMedia {
         String userName=ui.promptText("Input username");
         String passWord=ui.promptText("input password");
 
-        User u= new User(userName,passWord);
-        users.add(u);
+        createNewUser(userName,passWord);
 
     }
 
     void createNewUser (String name, String password){
         User u=new User(name, password);
         users.add(u);
+    }
+
+
+
+    public String printCurrentUser() {
+        return "currentUser=" + currentUser.getUserName() +
+                '}' +
+                "password=" + currentUser.getPassWord() +
+                '}'+
+                "want to watch=" + currentUser.printWantToWatch() +
+                '}'+
+                "watched=" + currentUser.printWatched() +
+                '}';
+
     }
 }
