@@ -16,14 +16,18 @@ public class System {
         }
 
 
-    void createAllUsers(ArrayList<String> data){ //igen hvad gør vi med arraylister?
-        for (String s:data){
-            String [] values= s.split(",");
-            User u= new User(values[0].trim(), values[1].trim());
+
+    void createAllUsers(){ //igen hvad gør vi med arraylister?
+       ArrayList <String> allUsers = new ArrayList(getExistingUPs());
+        for (String s:allUsers){
+            String [] attributes= s.split(",");
+            User u= new User(attributes[0].trim(), attributes[1].trim());
             allUsers.add(u);
         }
 
     }
+
+
 
     void promptCreateNewUser(){
         String userName=ui.promptText("Input username");
