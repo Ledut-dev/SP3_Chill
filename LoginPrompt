@@ -1,0 +1,62 @@
+package com.streamingchill;
+
+import java.util.Scanner;
+
+public class LoginPrompt {
+    private final Scanner scanner = new Scanner(System.in);
+
+    public void execute() {
+        System.out.println("\nSTREAMINGJIGENEISTE");
+
+        while (true) {
+            System.out.print("\nHar du allerede en bruger? (ja/nej): ");
+            String svar = scanner.nextLine().trim().toLowerCase();
+
+            if (svar.equals("ja")) {
+                login();
+                break;
+            } else if (svar.equals("nej")) {
+                opretBruger();
+                break;
+            } else {
+                System.out.println("Skriv 'ja' eller 'nej'");
+            }
+        }
+    }
+
+    private void login() {
+        System.out.println("\n LOGIN ");
+        System.out.print("Brugernavn: ");
+        String brugernavn = scanner.nextLine();
+        System.out.print("Adgangskode: ");
+        String kodeord = scanner.nextLine();
+
+        if (brugernavn.equals("admin") && kodeord.equals("1234")) {
+            System.out.println("\nVelkommen " + brugernavn + "!");
+
+        } else {
+            System.out.println("\nForkert brugernavn eller kodeord!");
+            execute();
+        }
+    }
+
+    private void opretBruger() {
+        System.out.println("\n--- NY BRUGER ---");
+        System.out.print("Vælg brugernavn: ");
+        String brugernavn = scanner.nextLine();
+        System.out.print("Vælg adgangskode: ");
+        String kodeord = scanner.nextLine();
+        System.out.print("Bekræft adgangskode: ");
+        String bekræft = scanner.nextLine();
+
+        if (kodeord.equals(bekræft)) {
+            System.out.println("\nBruger '" + brugernavn + "' oprettet!");
+            System.out.println("Log ind med dine nye oplysninger:");
+            login();
+        } else {
+            System.out.println("Adgangskoder matcher ikke");
+            opretBruger();
+        }
+    }
+
+    }
