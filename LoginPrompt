@@ -1,9 +1,19 @@
 package com.streamingchill;
 
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class LoginPrompt {
     private final Scanner scanner = new Scanner(System.in);
+    private final HashMap<String, String> brugere = new HashMap<>();
+
+    public LoginPrompt() {
+
+        brugere.put("Ledut", "password");
+        brugere.put("Jonas1219", "pleasePass1219");
+        brugere.put("Olga Willadsen", "let me pass");
+        brugere.put("Alex@nder", "Gand@lf!");
+    }
 
     public void execute() {
         System.out.println("\nSTREAMINGJIGENEISTE");
@@ -25,31 +35,38 @@ public class LoginPrompt {
     }
 
     private void login() {
-        System.out.println("\n LOGIN ");
+        System.out.println("\nLOGIN ");
         System.out.print("Brugernavn: ");
         String brugernavn = scanner.nextLine();
         System.out.print("Adgangskode: ");
         String kodeord = scanner.nextLine();
 
-        if (brugernavn.equals("admin") && kodeord.equals("1234")) {
+        if (brugere.containsKey(brugernavn) && brugere.get(brugernavn).equals(kodeord)) {
             System.out.println("\nVelkommen " + brugernavn + "!");
-
         } else {
-            System.out.println("\nForkert brugernavn eller kodeord!");
+            System.out.println("\nForkert brugernavn eller kodeord");
             execute();
         }
     }
 
     private void opretBruger() {
-        System.out.println("\n--- NY BRUGER ---");
+        System.out.println("\n NY BRUGER ");
         System.out.print("Vælg brugernavn: ");
         String brugernavn = scanner.nextLine();
+
+        if (brugere.containsKey(brugernavn)) {
+            System.out.println("Brugernavnet er allerede taget. Prøv igen.");
+            opretBruger();
+            return;
+        }
+
         System.out.print("Vælg adgangskode: ");
         String kodeord = scanner.nextLine();
         System.out.print("Bekræft adgangskode: ");
         String bekræft = scanner.nextLine();
 
         if (kodeord.equals(bekræft)) {
+            brugere.put(brugernavn, kodeord);
             System.out.println("\nBruger '" + brugernavn + "' oprettet!");
             System.out.println("Log ind med dine nye oplysninger:");
             login();
@@ -58,5 +75,4 @@ public class LoginPrompt {
             opretBruger();
         }
     }
-
-    }
+}
