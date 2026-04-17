@@ -59,13 +59,11 @@ public class MediaLibrary {
 
     public void displayArray(ArrayList<Media> list){
         for (Media m : list){
-            //We cannot name this class "System" as it's already a part of Java.lang
-            //System.out.println(m.toString());
-
-            //This would work if we don't want to rename.
-            java.lang.System.out.println(m.toString());
+            System.out.println(m.toString());
         }
     }
+
+
 
     public ArrayList<Media> getAllMedia() {
         return this.allMedia;
