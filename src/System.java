@@ -9,19 +9,17 @@ public class System {
 
     private MediaLibrary mediaLibrary;
 
-    public System(){
+    public System() {
         this.mediaLibrary = new MediaLibrary();
     }
-
-}
 
 
     // UPs = username & password.
     // Anvendes til at sammenligne brugerinput med eksisterende burgeres brugernavn og password.
-    public ArrayList<String> getExistingUPs(){
+    public ArrayList<String> getExistingUPs() {
         ArrayList<String> UPs = new ArrayList<>();
         ArrayList<String> userData = FileIO.readData("data/userData.csv");
-        for (String line : userData){
+        for (String line : userData) {
             String[] attributes = line.split(";");
             String username = attributes[0].trim();
             String password = attributes[1].trim();
@@ -32,11 +30,11 @@ public class System {
 
     // Tager et brugernavn og returnere data fra CSV-filen.
     // Anvendes til at oprette en instance af User, når en bruger logger ind.
-    public String[] getUserData(String username){
+    public String[] getUserData(String username) {
         ArrayList<String> userData = FileIO.readData("data/userData.csv");
-        for (String line : userData){
+        for (String line : userData) {
             String[] attributes = line.split(";");
-            if (username.equals(attributes[0].trim())){
+            if (username.equals(attributes[0].trim())) {
                 return line.split(",");
             }
         }
