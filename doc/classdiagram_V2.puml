@@ -12,7 +12,7 @@ class Service {
 - ArrayList<User> allUsers
 -TextUI ui
 + User createUser()
-+getExixtingUPs()
++getExistingUPs()
 +getUserData()
 +createExistingUser()
 +createNewUser()
