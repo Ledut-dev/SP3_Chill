@@ -17,6 +17,7 @@ public class Menu {
 
         mainMenuOptions();
 
+
     }
 
     public void mainMenuOptions(){ //vil vi hellere switche en string fordi det fucker mindre op?
