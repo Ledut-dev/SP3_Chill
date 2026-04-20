@@ -4,8 +4,8 @@ public class User {
 
     private String userName;
     private String passWord;
-    private ArrayList <String> wantToWatch;
-    private ArrayList <String> watched;
+    private ArrayList <String> wantToWatch; // media liste?
+    private ArrayList <String> watched; // media liste?
 
     public User (String userName, String passWord){
         this.userName=userName;

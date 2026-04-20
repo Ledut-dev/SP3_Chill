@@ -9,47 +9,31 @@ public class Menu {
     }
 
 
-    public void mainMenu(User currentUser){ //mere lir, men skal vi vente til vi ved om vi har tid?
+    public void printMainMenu(User currentUser){ //mere lir, men skal vi vente til vi ved om vi har tid?
 
-        ui.displayMsg("Welcome "+currentUser.getUserName());
-        ui.displayMsg("Menu");
-        ui.displayMsg("1. Search media");
-        ui.displayMsg("2. Show saved lists");
-        ui.displayMsg("3. Show all available movies");
-        ui.displayMsg("4. Show all available series");
-        ui.displayMsg("5. Quit");
-
-        mainMenuOptions();
-
-
-    }
-//TODO - Brugerrespons skal returneres til Service og håndeteres derfra, så de rigtige kald kan laves.
-    public void mainMenuOptions(){ //vil vi hellere switche en string fordi det fucker mindre op?
-
-        int userInput= ui.promptNumeric("input choice");
-        switch(userInput){
-
-            case 1: //method call search menu
-                break;
-            case 2: //method call show user u/current users lists
-                break;
-            case 3: // method call show all movie titles
-                break;
-            case 4: //method call show all series titles
-                break;
-            case 5: // quit and save data
-                break;
-            default:
-
-        }
+        ui.displayMsg("Welcome "+currentUser.getUserName()+"""
+       
+     
+       1. Search media
+       
+       2. Show saved lists
+       
+       3. Show all available movies
+       
+       4. Show all available series
+       
+       5. Quit""");
 
     }
 
     public String displaySearchMenu(User currentUser){
         String input = ui.promptText("""
                 How do you want to search?
+                
                 1. Search by category
+                
                 2. Search by title
+                
                 3. Back to Main Menu""");
         switch (input){
             case "1":
@@ -59,7 +43,7 @@ public class Menu {
                 String titleSelection = ui.promptText("Enter title:");
                 return titleSelection;
             case "3":
-                mainMenu(currentUser);
+                printMainMenu(currentUser);
                 break;
             default:
                 ui.displayMsg("Please pick a valid option (numbers 1-3)");

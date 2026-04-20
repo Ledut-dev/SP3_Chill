@@ -51,4 +51,8 @@ public class SearchEngine {
         // MediaOptions.displayMediaOptions;
     }
 
+    public MediaLibrary getMediaLibrary(){
+        return mediaLibrary;
+    }
+
 }

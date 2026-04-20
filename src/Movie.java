@@ -12,10 +12,14 @@ public class Movie extends Media{
     }
 
     public void play(){
+        System.out.println("Now playing: "+title+ "\nRelease year: "+releaseYear
+             );
+        //media tilføjes til users liste via Service
+
 
     }
 
     public String toString(){
-        return "";
+        return "Title: "+title;
     }
 }
