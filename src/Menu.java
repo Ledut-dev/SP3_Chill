@@ -10,10 +10,14 @@ public class Menu {
     }
 
     public void displayListMenu(User currentUser){
-        String userInput = ui.promptText("Which list would you like to view?" +
-                "\n 1. Want to watch" +
-                "\n 2. Watched" +
-                "\n 3. Back to Main Menu");
+        String userInput = ui.promptText("""
+                Which list would you like to view?
+                
+                 1. Want to watch
+                
+                 2. Watched
+                
+                 3. Back to Main Menu""");
         switch (userInput){
             case "1":
                 displayList(currentUser.getWantToWatch());

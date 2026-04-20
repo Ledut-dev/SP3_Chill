@@ -10,7 +10,7 @@ public class SearchEngine {
     Eventuelt kan man kombinere MediaLibrary og SearchEngine.
      */
     TextUI textUI = new TextUI();
-    
+
     public void displaySearchMenu(){
         String input = textUI.promptText("""
                 How do you want to search?
