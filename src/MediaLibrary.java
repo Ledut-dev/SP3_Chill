@@ -64,14 +64,6 @@ public class MediaLibrary {
         }
     }
 
-    public void displayArray(ArrayList<Media> list){
-        for (Media m : list){
-            System.out.println(m.toString());
-        }
-    }
-
-
-
     public ArrayList<Media> getAllMedia() {
         return this.allMedia;
     }
@@ -80,8 +72,5 @@ public class MediaLibrary {
     }
     public ArrayList<Media> getAllMovies() {
         return this.allMovies;
-    }
-    public SearchEngine getSearchEngine(){
-        return this.searchEngine;
     }
 }

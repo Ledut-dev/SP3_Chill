@@ -51,17 +51,4 @@ public class SearchEngine {
         // MediaOptions.displayMediaOptions;
     }
 
-    private int selectFromList(String message, ArrayList<Media> list){
-        for (int i = 0; i < list.size(); i++){
-            message += "\n" + (i+1) + ". " + list.get(i).toString();
-        }
-        return textUI.promptNumeric(message);
-    }
-
-    private int selectFromList(String message, Category[] list){
-        for (int i = 0; i < list.length; i++){
-            message += "\n" + (i+1) + ". " + list[i].toString();
-        }
-        return textUI.promptNumeric(message);
-    }
 }

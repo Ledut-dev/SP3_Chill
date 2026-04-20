@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Service {
 
-    private MediaLibrary mediaLibrary;
+    private SearchEngine searchEngine;
     private User currentUser;
     private Menu menu;
     private ArrayList<User> users;
@@ -13,7 +13,7 @@ public class Service {
 
     public Service() {
         this.menu = new Menu();
-        this.mediaLibrary = new MediaLibrary();
+        this.searchEngine = new SearchEngine();
         users = new ArrayList<User>();
     }
 
@@ -96,49 +96,26 @@ public class Service {
 
     }
 
-    /// ////////////////////
+    public void loginPrompt() {
+        System.out.println("\nSTREAMINGCHILL");
 
+        while (true) {
+            System.out.print("\nHar du allerede en bruger? (ja/nej): ");
+            String svar = scanner.nextLine().trim().toLowerCase();
 
-    //LoginPrompt
-        private final Scanner scanner = new Scanner(System.in);
-
-
-
-        public void loginPrompt() {
-            System.out.println("\nSTREAMINGCHILL");
-
-            while (true) {
-                System.out.print("\nHar du allerede en bruger? (ja/nej): ");
-                String svar = scanner.nextLine().trim().toLowerCase();
-
-                if (svar.equals("ja")) {
-                    // UC1 #9 - Login method
-                    LoginMethod loginMethod = new LoginMethod(brugere, scanner);
-                    loginMethod.login();
-                    currentUser = loginMethod.getCurrentUser();
-                    break;
-                } else if (svar.equals("nej")) {
-                    // UC1 #9 - Rainy day: opret bruger
-                    LoginMethod loginMethod = new LoginMethod(brugere, scanner);
-                    loginMethod.opretBruger();
-                    currentUser = loginMethod.getCurrentUser();
-                    break;
-                } else {
-                    System.out.println("Skriv 'ja' eller 'nej'.");
-                }
+            if (svar.equals("ja")) {
+                login();
+                break;
+            } else if (svar.equals("nej")) {
+                opretBruger();
+                break;
+            } else {
+                System.out.println("Skriv 'ja' eller 'nej'.");
             }
         }
-
-        public User getCurrentUser() {
-            return currentUser;
-        }
-
-
-    public Service(ArrayList<User> brugere, Scanner scanner) {
-        this.brugere = brugere;
-        this.scanner = scanner;
     }
 
+    // ---- LOGIN ----
     public void login() {
         while (true) {
             System.out.print("\nBrugernavn: ");
@@ -148,23 +125,23 @@ public class Service {
 
             User matchedUser = null;
             for (User u : brugere) {
-                if (u.getUserName().equals(navn) && u.getPassword().equals(pass)) {
+                if (u.getUserName().equals(navn) && u.getPassWord().equals(pass)) {
                     matchedUser = u;
                     break;
                 }
             }
 
             if (matchedUser != null) {
-                // SUCCESS: Send greetings message and create user object
+                // SUCCESS
                 currentUser = matchedUser;
                 System.out.println("\nVELKOMMEN " + navn.toUpperCase() + "!");
                 System.out.println("Du er nu logget ind.");
                 return;
             } else {
-                // UNSUCCESSFUL: Send error message and prompt login again
+                // UNSUCCESSFUL
                 System.out.println("\nLOGIN FEJLEDE! Forkert brugernavn eller adgangskode.");
 
-                // RAINY DAY: User realizes they don't have an account
+                // RAINY DAY: bruger har ikke en konto
                 System.out.print("Har du ikke en bruger? (ja/nej): ");
                 String svar = scanner.nextLine().trim().toLowerCase();
                 if (svar.equals("ja")) {
@@ -176,6 +153,7 @@ public class Service {
         }
     }
 
+    // ---- OPRET BRUGER ----
     public void opretBruger() {
         while (true) {
             System.out.print("\nVælg brugernavn: ");
@@ -194,9 +172,9 @@ public class Service {
             System.out.print("Vælg adgangskode: ");
             String pass = scanner.nextLine();
             System.out.print("Bekræft adgangskode: ");
-            String bekræft = scanner.nextLine();
+            String bekraeft = scanner.nextLine();
 
-            if (!pass.equals(bekræft)) {
+            if (!pass.equals(bekraeft)) {
                 System.out.println("Adgangskoder matcher ikke!");
                 continue;
             }
@@ -204,7 +182,6 @@ public class Service {
             User nyBruger = new User(navn, pass, new ArrayList<>(), new ArrayList<>());
             brugere.add(nyBruger);
 
-            // Gem i CSV
             try (FileWriter writer = new FileWriter("data/userData.csv", true)) {
                 writer.write(navn + ";" + pass + ";;\n");
             } catch (IOException e) {
@@ -222,10 +199,4 @@ public class Service {
         return currentUser;
     }
 }
-
-
-
-
-
-    }
 

@@ -23,7 +23,7 @@ public class Menu {
 
 
     }
-
+//TODO - Brugerrespons skal returneres til Service og håndeteres derfra, så de rigtige kald kan laves.
     public void mainMenuOptions(){ //vil vi hellere switche en string fordi det fucker mindre op?
 
         int userInput= ui.promptNumeric("input choice");
@@ -68,7 +68,7 @@ public class Menu {
         }
     }
 
-    public void displayListMenu(User currentUser){
+    public String displayListMenu(User currentUser){
         String userInput = ui.promptText("""
                 Which list would you like to view?
                 
@@ -93,7 +93,6 @@ public class Menu {
         }
     }
 
-
     private String selectFromList(String message, ArrayList<Media> list){
         for (int i = 1; i <= list.size(); i++){
             message += "\n" + (i) + ". " + list.get(i).toString();
@@ -107,6 +106,5 @@ public class Menu {
         }
         return ui.promptText(message);
     }
-
 
 }
