@@ -1,0 +1,98 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class LoginMethod {
+    private final Scanner scanner;
+    private final ArrayList<User> brugere;
+    private User currentUser;
+
+    public LoginMethod(ArrayList<User> brugere, Scanner scanner) {
+        this.brugere = brugere;
+        this.scanner = scanner;
+    }
+
+    public void login() {
+        while (true) {
+            System.out.print("\nBrugernavn: ");
+            String navn = scanner.nextLine();
+            System.out.print("Adgangskode: ");
+            String pass = scanner.nextLine();
+
+            User matchedUser = null;
+            for (User u : brugere) {
+                if (u.getUserName().equals(navn) && u.getPassword().equals(pass)) {
+                    matchedUser = u;
+                    break;
+                }
+            }
+
+            if (matchedUser != null) {
+                // SUCCESS: Send greetings message and create user object
+                currentUser = matchedUser;
+                System.out.println("\nVELKOMMEN " + navn.toUpperCase() + "!");
+                System.out.println("Du er nu logget ind.");
+                return;
+            } else {
+                // UNSUCCESSFUL: Send error message and prompt login again
+                System.out.println("\nLOGIN FEJLEDE! Forkert brugernavn eller adgangskode.");
+
+                // RAINY DAY: User realizes they don't have an account
+                System.out.print("Har du ikke en bruger? (ja/nej): ");
+                String svar = scanner.nextLine().trim().toLowerCase();
+                if (svar.equals("ja")) {
+                    opretBruger();
+                    return;
+                }
+                System.out.println("Prøver igen...");
+            }
+        }
+    }
+
+    public void opretBruger() {
+        while (true) {
+            System.out.print("\nVælg brugernavn: ");
+            String navn = scanner.nextLine();
+
+            boolean taget = false;
+            for (User u : brugere) {
+                if (u.getUserName().equals(navn)) {
+                    System.out.println("Brugernavn er allerede taget!");
+                    taget = true;
+                    break;
+                }
+            }
+            if (taget) continue;
+
+            System.out.print("Vælg adgangskode: ");
+            String pass = scanner.nextLine();
+            System.out.print("Bekræft adgangskode: ");
+            String bekræft = scanner.nextLine();
+
+            if (!pass.equals(bekræft)) {
+                System.out.println("Adgangskoder matcher ikke!");
+                continue;
+            }
+
+            User nyBruger = new User(navn, pass, new ArrayList<>(), new ArrayList<>());
+            brugere.add(nyBruger);
+
+            // Gem i CSV
+            try (FileWriter writer = new FileWriter("data/userData.csv", true)) {
+                writer.write(navn + ";" + pass + ";;\n");
+            } catch (IOException e) {
+                System.out.println("Fejl ved gemning af bruger.");
+            }
+
+            currentUser = nyBruger;
+            System.out.println("\nBruger oprettet!");
+            System.out.println("VELKOMMEN " + navn.toUpperCase() + "!");
+            return;
+        }
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+}
