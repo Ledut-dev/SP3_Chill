@@ -25,4 +25,11 @@ public class User {
     public void addMediaToList(Media m, ArrayList<Media> list){
         list.add(m);
     }
+
+    public ArrayList<String> getWantToWatch(){
+        return this.wantToWatch;
+    }
+    public ArrayList<String> getWatched(){
+        return this.wantToWatch;
+    }
 }
