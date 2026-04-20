@@ -25,4 +25,29 @@ public class User {
     public void addMediaToList(Media m, ArrayList<Media> list){
         list.add(m);
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public String printWantToWatch() {
+        String output="";
+        for (String s:wantToWatch){
+            output+=(s+", ");
+        }return output;
+    }
+
+    public String printWatched() {
+        String output="";
+        for (String s:watched){
+            output+=(s+", ");
+        }return output;
+    }
+
+
+
 }
