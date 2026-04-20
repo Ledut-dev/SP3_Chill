@@ -6,9 +6,18 @@ import java.util.ArrayList;
 public class MediaLibrary {
 
     private ArrayList<Media> allMedia;
+    private ArrayList<Media> allSeries;
+    private ArrayList<Media> allMovies;
+
+    //TODO - Actually create the searchengine
+    private SearchEngine searchEngine;
 
     public MediaLibrary(){
         this.allMedia = new ArrayList<>();
+    //TODO make sure MediaLibrary creates 2 extra ArrayLists with their respective media types.
+        this.allSeries = new ArrayList<>();
+        this.allMovies = new ArrayList<>();
+        searchEngine = new SearchEngine();
         createMedia();
     }
 
@@ -67,5 +76,14 @@ public class MediaLibrary {
 
     public ArrayList<Media> getAllMedia() {
         return this.allMedia;
+    }
+    public ArrayList<Media> getAllSeries() {
+        return this.allSeries;
+    }
+    public ArrayList<Media> getAllMovies() {
+        return this.allMovies;
+    }
+    public SearchEngine getSearchEngine(){
+        return this.searchEngine;
     }
 }

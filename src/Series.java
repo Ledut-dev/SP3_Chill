@@ -10,4 +10,11 @@ public class Series extends Media{
         this.releasePeriod = releasePeriod;
         this.seasons = seasons;
     }
+    public void play(){
+
+    }
+
+    public String toString(){
+        return "";
+    }
 }

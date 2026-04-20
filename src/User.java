@@ -34,6 +34,14 @@ public class User {
         return passWord;
     }
 
+    public ArrayList<String> getWantToWatch(){
+        return this.wantToWatch;
+    }
+
+    public ArrayList<String> getWatched(){
+        return this.wantToWatch;
+    }
+
     public String printWantToWatch() {
         String output="";
         for (String s:wantToWatch){
@@ -51,10 +59,5 @@ public class User {
 
 
 
-    public ArrayList<String> getWantToWatch(){
-        return this.wantToWatch;
-    }
-    public ArrayList<String> getWatched(){
-        return this.wantToWatch;
-    }
+
 }

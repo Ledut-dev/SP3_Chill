@@ -10,4 +10,12 @@ public class Movie extends Media{
         super(title, categories, rating);
         this.releaseYear = releaseYear;
     }
+
+    public void play(){
+
+    }
+
+    public String toString(){
+        return "";
+    }
 }

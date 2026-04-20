@@ -2,7 +2,7 @@ public class Main {
 
     public static void main(){
 
-        PickMedia PM = new PickMedia();
+        Service PM = new Service();
 
         PM.createExistingUser("Olga Willadsen");
         System.out.println(PM.printCurrentUser());

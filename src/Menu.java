@@ -3,9 +3,10 @@ import java.util.ArrayList;
 
 public class Menu {
 
+    private MediaLibrary mediaLibrary;
     TextUI ui = new TextUI();
     public Menu(){
-
+        this.mediaLibrary = new MediaLibrary();
     }
 
 
@@ -45,6 +46,29 @@ public class Menu {
 
     }
 
+    public void displaySearchMenu(){
+        String input = ui.promptText("""
+                How do you want to search?
+                1. Search by category
+                2. Search by title
+                3. Back to Main Menu""");
+        switch (input){
+            case "1":
+                displayCategorySearch();
+                break;
+            case "2":
+                mediaLibrary.displayTitleSearch();
+                break;
+            case "3":
+                // Metode til at returnere til Main Menu
+                break;
+            default:
+                textUI.displayMsg("Please pick a valid option (numbers 1-3)");
+                displaySearchMenu();
+                break;
+        }
+    }
+
     public void displayListMenu(User currentUser){
         String userInput = ui.promptText("""
                 Which list would you like to view?
@@ -70,7 +94,9 @@ public class Menu {
         }
     }
 
-
+    public MediaLibrary gertMediaLibrary(){
+        return this.mediaLibrary;
+    }
 
 
 

@@ -3,7 +3,6 @@ import util.TextUI;
 import java.util.ArrayList;
 
 public class SearchEngine {
-    private ArrayList<Media> allMedia;
     /*
     Jeg foreslår, at vi rykker denne ArrayList hertil, da SearchEngine naturligvis skal bruge adgangen,
     mens MediaLibrary nok alligevel vil gå gennem SearchEngine hver gang.
@@ -11,28 +10,6 @@ public class SearchEngine {
      */
     TextUI textUI = new TextUI();
 
-    public void displaySearchMenu(){
-        String input = textUI.promptText("""
-                How do you want to search?
-                1. Search by category
-                2. Search by title
-                3. Back to Main Menu""");
-        switch (input){
-            case "1":
-                displayCategorySearch();
-                break;
-            case "2":
-                displayTitleSearch();
-                break;
-            case "3":
-                // Metode til at returnere til Main Menu
-                break;
-            default:
-                textUI.displayMsg("Please pick a valid option (numbers 1-3)");
-                displaySearchMenu();
-                break;
-        }
-    }
 
     // Bruger skriver en filmtitel. Hvis den matcher tages brugeren til MediaOptions
     public void displayTitleSearch(){

@@ -12,4 +12,8 @@ public abstract class Media {
         this.rating = rating;
 
     }
+
+    public abstract void play();
+
+    public abstract String toString();
 }
