@@ -28,11 +28,9 @@ public class SearchEngine {
         }
     }
 
-    // Beder brugeren om at vælge en category fra listen og returnerer alle titler med denne category.
-    public ArrayList<Media> filterByCategory(){
-        //Brugervalg skal håndteres i Menu.
-//        int categorySelection = selectFromList("Select a category:", Category.values())-1;
-
+    // Tager et valg af category fra Menu (som String) og returnerer alle titler med denne category.
+    public ArrayList<Media> filterByCategory(categorySelectionAsString){
+        int categorySelection = Integer.parseInt(categorySelectionAsString)
         ArrayList<Media> filteredList = new ArrayList<>();
         for (Media media : mediaLibrary.getAllMedia()){
             for (Category category : media.categories){
