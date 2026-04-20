@@ -1,0 +1,121 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+!pragma layout smetana
+
+enum Category
+
+class Service {
+- User currentUser
+- MediaLibrary mediaLibrary
+- Menu menu
+- ArrayList<User> allUsers
+-TextUI ui
++ User createUser()
++getExixtingUPs()
++getUserData()
++createExistingUser()
++createNewUser()
++promptCreateNewUser()
++printCurrentUser()
++loginPrompt()
++login()
++getCurrentUser()
+}
+
+class MediaLibrary{
+- ArrayList<Media> allMedia
+- ArrayList <Media> allSeries
+- ArrayList <Media> allMovies
+- SearchEngine searchEngine
++createMedia()
++ void displayArray(ArrayList<Media> list)
++ ArrayList <Media> getAllMedia()
++ ArrayList <Media> getAllSeries()
++ ArrayList <Media> getAllMovies()
++ SearchEngine getSearchEngine()
+
+}
+class Menu{
+- TextUI ui
++ void mainMenu()
++ void mainMenuOptions()
++ void displayListMenu()
++void displayListOptions()
++void displaySearchMenu
++ MediaLibrary getMediaLibrary()
+}
+class SearchEngine{
++ void displayTitleSearch()
++ArrayList <Media> displayCategorySearch()
++ArrayList <Media> displayFilteredList(ArrayList<Media>)
+-int selectFromList(String, ArrayList<Media>)
+-int selectFromList(String, Category[])
+
+}
+
+abstract class Media {
+# String title
+# ArrayList<Category> category
+# double rating
++ void {abstract} play()
++{abstract} String toString()
+}
+
+
+class Movie extends Media{
+- int releaseYear
++ String toString()
+}
+
+class Series extends Media{
+- String releasePeriod
+- ArrayList<String> seasons
++ String toString()
+}
+
+
+class User{
+- String username
+- String password
+- ArrayList<String> wantToWatch
+- ArrayList<String> watched
++ User(String username, String password)
++ User(String username, String password, ArrayList<Media> wantToWatch, ArrayList<Media> watched)
++ void addMediaToList(Media media, ArrayList<Media> list)
++getUserName()
++getPassWord()
++getWantToWatch()
++getWatched()
++String printWantToWatch()
++String printWatched()
+}
+
+package "util" {
+class TextUI {
+- Scanner scan
++ boolean promptBinary(String msg)
++ String promptText(String msg)
++ int promptNumeric(String msg)
++ ArrayList<String> promptChoice(ArrayList<String> options, int limit, String msg)
++ void displayMessage(String msg)
++ void displayList(ArrayList<String> list, String msg)
+}
+
+class FileIO{
++ void saveData(ArrayList<String> data, String path)
++ ArrayList<String> readData(String path)
+}
+}
+
+Media *-- Category
+MediaLibrary *-- SearchEngine
+MediaLibrary *-- Media
+Service *-- MediaLibrary
+Service *-- User
+Service *-- Menu
+Service *-- TextUI
+Menu *---- TextUI
+
+
+@enduml
