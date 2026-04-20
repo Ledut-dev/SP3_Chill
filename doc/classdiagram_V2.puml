@@ -27,7 +27,6 @@ class MediaLibrary{
 - ArrayList<Media> allMedia
 - ArrayList <Media> allSeries
 - ArrayList <Media> allMovies
-- SearchEngine searchEngine
 +createMedia()
 + void displayArray(ArrayList<Media> list)
 + ArrayList <Media> getAllMedia()
@@ -42,12 +41,14 @@ class Menu{
 + void mainMenuOptions()
 + void displayListMenu()
 +void displayListOptions()
-+void displaySearchMenu
++void displaySearchMenu()
 + MediaLibrary getMediaLibrary()
 }
 class SearchEngine{
-+ void displayTitleSearch()
-+ArrayList <Media> displayCategorySearch()
+-MediaLibrary mediaLibrary
+textUI ui
++ void filterByTitle()
++ArrayList <Media> filterByCategory()
 +ArrayList <Media> displayFilteredList(ArrayList<Media>)
 -int selectFromList(String, ArrayList<Media>)
 -int selectFromList(String, Category[])
