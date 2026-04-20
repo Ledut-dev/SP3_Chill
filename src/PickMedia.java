@@ -13,6 +13,7 @@ public class PickMedia {
 
     public PickMedia() {
         this.mediaLibrary = new MediaLibrary();
+        users = new ArrayList<User>();
     }
 
 
@@ -63,20 +64,8 @@ public class PickMedia {
 
         User u = new User(attribute[0].trim(),attribute[1].trim(), wantToWatch,watched);
         currentUser=u;
-        //users.add(u);
+        users.add(u);
     }
-
-    //I tilfælde af at alle brugere skal indlæses, vi gemmer dog data via ArrayList<String>, så ikke nødvendigt.
-//    void createAllUsers(){ //igen hvad gør vi med arraylister?
-//        ArrayList <String> allUsers = new ArrayList<>(getExistingUPs());
-//        for (String s:allUsers){
-//            String [] attributes= s.split(",");
-//            User u= new User(attributes[0].trim(), attributes[1].trim());
-//            users.add(u);
-//        }
-//
-//    }
-
 
 
     void promptCreateNewUser(){
