@@ -5,6 +5,7 @@
 
 enum Category
 
+
 class Service {
 - User currentUser
 - MediaLibrary mediaLibrary
