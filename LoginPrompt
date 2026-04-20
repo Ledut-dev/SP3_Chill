@@ -1,78 +1,67 @@
-package com.streamingchill;
 
 import java.util.Scanner;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class LoginPrompt {
     private final Scanner scanner = new Scanner(System.in);
-    private final HashMap<String, String> brugere = new HashMap<>();
+    private final ArrayList<User> brugere = new ArrayList<>();
+    private User currentUser;
 
     public LoginPrompt() {
+        try {
+            Scanner fileScan = new Scanner(new File("data/userData.csv"));
+            while (fileScan.hasNextLine()) {
+                String[] data = fileScan.nextLine().split(";");
+                if (data.length >= 2) {
+                    String navn = data[0].trim();
+                    String pass = data[1].trim();
 
-        brugere.put("Ledut", "password");
-        brugere.put("Jonas1219", "pleasePass1219");
-        brugere.put("Olga Willadsen", "let me pass");
-        brugere.put("Alex@nder", "Gand@lf!");
+                    ArrayList<String> want = new ArrayList<>();
+                    ArrayList<String> watched = new ArrayList<>();
+
+                    if (data.length >= 4) {
+                        if (!data[2].trim().isEmpty())
+                            for (String s : data[2].split(",")) want.add(s.trim());
+                        if (!data[3].trim().isEmpty())
+                            for (String s : data[3].split(",")) watched.add(s.trim());
+                    }
+                    brugere.add(new User(navn, pass, want, watched));
+                }
+            }
+            fileScan.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("userData.csv ikke fundet.");
+        }
     }
 
     public void execute() {
-        System.out.println("\nSTREAMINGJIGENEISTE");
+        System.out.println("\nSTREAMINGCHILL");
 
         while (true) {
             System.out.print("\nHar du allerede en bruger? (ja/nej): ");
             String svar = scanner.nextLine().trim().toLowerCase();
 
             if (svar.equals("ja")) {
-                login();
+                // UC1 #9 - Login method
+                LoginMethod loginMethod = new LoginMethod(brugere, scanner);
+                loginMethod.login();
+                currentUser = loginMethod.getCurrentUser();
                 break;
             } else if (svar.equals("nej")) {
-                opretBruger();
+                // UC1 #9 - Rainy day: opret bruger
+                LoginMethod loginMethod = new LoginMethod(brugere, scanner);
+                loginMethod.opretBruger();
+                currentUser = loginMethod.getCurrentUser();
                 break;
             } else {
-                System.out.println("Skriv 'ja' eller 'nej'");
+                System.out.println("Skriv 'ja' eller 'nej'.");
             }
         }
     }
 
-    private void login() {
-        System.out.println("\nLOGIN ");
-        System.out.print("Brugernavn: ");
-        String brugernavn = scanner.nextLine();
-        System.out.print("Adgangskode: ");
-        String kodeord = scanner.nextLine();
-
-        if (brugere.containsKey(brugernavn) && brugere.get(brugernavn).equals(kodeord)) {
-            System.out.println("\nVelkommen " + brugernavn + "!");
-        } else {
-            System.out.println("\nForkert brugernavn eller kodeord");
-            execute();
-        }
-    }
-
-    private void opretBruger() {
-        System.out.println("\n NY BRUGER ");
-        System.out.print("Vælg brugernavn: ");
-        String brugernavn = scanner.nextLine();
-
-        if (brugere.containsKey(brugernavn)) {
-            System.out.println("Brugernavnet er allerede taget. Prøv igen.");
-            opretBruger();
-            return;
-        }
-
-        System.out.print("Vælg adgangskode: ");
-        String kodeord = scanner.nextLine();
-        System.out.print("Bekræft adgangskode: ");
-        String bekræft = scanner.nextLine();
-
-        if (kodeord.equals(bekræft)) {
-            brugere.put(brugernavn, kodeord);
-            System.out.println("\nBruger '" + brugernavn + "' oprettet!");
-            System.out.println("Log ind med dine nye oplysninger:");
-            login();
-        } else {
-            System.out.println("Adgangskoder matcher ikke");
-            opretBruger();
-        }
+    public User getCurrentUser() {
+        return currentUser;
     }
 }
