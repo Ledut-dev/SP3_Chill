@@ -78,4 +78,5 @@ public class PickMedia {
         User u=new User(name, password);
         users.add(u);
     }
+
 }
