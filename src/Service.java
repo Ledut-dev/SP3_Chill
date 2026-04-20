@@ -13,6 +13,7 @@ public class Service {
 
     public Service() {
         this.menu = new Menu();
+        this.mediaLibrary = new MediaLibrary();
         users = new ArrayList<User>();
     }
 

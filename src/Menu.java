@@ -3,10 +3,9 @@ import java.util.ArrayList;
 
 public class Menu {
 
-    private MediaLibrary mediaLibrary;
     TextUI ui = new TextUI();
     public Menu(){
-        this.mediaLibrary = new MediaLibrary();
+
     }
 
 
@@ -46,7 +45,7 @@ public class Menu {
 
     }
 
-    public void displaySearchMenu(){
+    public String displaySearchMenu(User currentUser){
         String input = ui.promptText("""
                 How do you want to search?
                 1. Search by category
@@ -54,17 +53,17 @@ public class Menu {
                 3. Back to Main Menu""");
         switch (input){
             case "1":
-                displayCategorySearch();
-                break;
+                String categorySelection = selectFromList("Select a category:", Category.values());
+                return categorySelection;
             case "2":
-                mediaLibrary.displayTitleSearch();
-                break;
+                String titleSelection = ui.promptText("Enter title:");
+                return titleSelection;
             case "3":
-                // Metode til at returnere til Main Menu
+                mainMenu(currentUser);
                 break;
             default:
-                textUI.displayMsg("Please pick a valid option (numbers 1-3)");
-                displaySearchMenu();
+                ui.displayMsg("Please pick a valid option (numbers 1-3)");
+                displaySearchMenu(currentUser);
                 break;
         }
     }
@@ -94,11 +93,20 @@ public class Menu {
         }
     }
 
-    public MediaLibrary gertMediaLibrary(){
-        return this.mediaLibrary;
+
+    private String selectFromList(String message, ArrayList<Media> list){
+        for (int i = 1; i <= list.size(); i++){
+            message += "\n" + (i) + ". " + list.get(i).toString();
+        }
+        return ui.promptText(message);
     }
 
-
+    private String selectFromList(String message, Category[] list){
+        for (int i = 1; i <= list.length; i++){
+            message += "\n" + (i) + ". " + list[i].toString();
+        }
+        return ui.promptText(message);
+    }
 
 
 }

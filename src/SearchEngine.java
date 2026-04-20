@@ -3,21 +3,24 @@ import util.TextUI;
 import java.util.ArrayList;
 
 public class SearchEngine {
-    /*
-    Jeg foreslår, at vi rykker denne ArrayList hertil, da SearchEngine naturligvis skal bruge adgangen,
-    mens MediaLibrary nok alligevel vil gå gennem SearchEngine hver gang.
-    Eventuelt kan man kombinere MediaLibrary og SearchEngine.
-     */
+    private MediaLibrary mediaLibrary;
+
     TextUI textUI = new TextUI();
 
 
+    public SearchEngine(){
+        this.mediaLibrary = new MediaLibrary();
+    }
+
     // Bruger skriver en filmtitel. Hvis den matcher tages brugeren til MediaOptions
-    public void displayTitleSearch(){
-        String input = textUI.promptText("Enter title:");
-        for (Media media : allMedia){
-            if (input.equalsIgnoreCase(media.title)){
-                textUI.displayMsg("You have chosen " + media.title);
-                // MediaOptions.displayMediaOptions;
+    //TODO - Alt kommunikation og tekst til bruger skal gerne ske via "Menu", derfor skal denne tage String titel som argument.
+    //End result -
+    public Media filterByTitle(String searchArgument){
+        //Brugervalg skal håndteres i Menu.
+//        String input = textUI.promptText("Enter title:");
+        for (Media media : mediaLibrary.getAllMedia()){
+            if (searchArgument.equalsIgnoreCase(media.title)){
+                return media;
             } else {
                 textUI.displayMsg("Title not found.");
                 displaySearchMenu();
@@ -26,11 +29,12 @@ public class SearchEngine {
     }
 
     // Beder brugeren om at vælge en category fra listen og returnerer alle titler med denne category.
-    public ArrayList<Media> displayCategorySearch(){
-        int categorySelection = selectFromList("Select a category:", Category.values())-1;
+    public ArrayList<Media> filterByCategory(){
+        //Brugervalg skal håndteres i Menu.
+//        int categorySelection = selectFromList("Select a category:", Category.values())-1;
 
         ArrayList<Media> filteredList = new ArrayList<>();
-        for (Media media : allMedia){
+        for (Media media : mediaLibrary.getAllMedia()){
             for (Category category : media.categories){
                 if (Category.values()[categorySelection].equals(category)){
                     filteredList.add(media);
