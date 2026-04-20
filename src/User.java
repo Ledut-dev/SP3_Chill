@@ -50,4 +50,11 @@ public class User {
 
 
 
+
+    public ArrayList<String> getWantToWatch(){
+        return this.wantToWatch;
+    }
+    public ArrayList<String> getWatched(){
+        return this.wantToWatch;
+    }
 }
