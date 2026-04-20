@@ -2,6 +2,8 @@ package SP3_Chill;
 
 public class Main {
     public static void main(String[] args) {
-        new com.streamingchill.LoginPrompt().execute();
+        LoginPrompt loginPrompt = new LoginPrompt();
+        loginPrompt.execute();
     }
+}
 }
