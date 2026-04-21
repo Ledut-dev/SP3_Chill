@@ -36,6 +36,20 @@ public class Service {
         }
     }
 
+    public void menu (User currentUser){
+
+        loginPrompt();
+        menu.printMainMenu(currentUser);
+        mainMenuOptions(currentUser);
+
+        // efter media.play() kaldes list.add(media) for at tilføje netop afspillede medie til current users watched list
+
+
+
+
+    }
+
+
     // UPs = username & password.
     // Anvendes til at sammenligne brugerinput med eksisterende burgeres brugernavn og password.
     public ArrayList<String> getExistingUPs() {
@@ -216,5 +230,32 @@ public class Service {
     public User getCurrentUser() {
         return currentUser;
     }
+    //TODO - Brugerrespons skal returneres til Service og håndeteres derfra, så de rigtige kald kan laves.
+    public void mainMenuOptions(User currentUser){
+
+        int userInput= ui.promptNumeric("input choice");
+        switch(userInput){
+
+            case 1: menu.displaySearchMenu(currentUser);
+                break;
+            case 2: menu.displayListMenu(currentUser);
+                break;
+            case 3:
+                for(Media m:searchEngine.getMediaLibrary().getAllMovies()){
+                    ui.displayMsg(m.toString());
+                    //vil gerne bruge ui.displaylist men har ikke en liste kun med titler? maaske ligemeget
+                } break;
+            case 4:
+                for(Media s:searchEngine.getMediaLibrary().getAllSeries()){
+                    ui.displayMsg(s.toString());
+            } break;
+            case 5: // quit and save data
+                break;
+            default: ui.displayMsg("choose an option 1, 2, 3, 4 or 5.");
+            mainMenuOptions(currentUser);
+        }
+    }
+
+
 }
 
