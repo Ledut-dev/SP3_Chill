@@ -21,7 +21,9 @@ public class User {
         this.watched=watched;
     }
 
-
+    //Users lists are still Strings, can either have the lists be media itself, or potentially save just the titles as strings,
+    //and later match the titles to corresponding media object in MediaLibrary allMedia list.
+    //That way it's not needed to save all media data to each user, but we can still create media objects when loading current user.
     public void addMediaToList(Media m, ArrayList<Media> list){
         list.add(m);
     }

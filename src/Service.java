@@ -18,6 +18,24 @@ public class Service {
     }
 
 
+    public void menuLoop(){
+        //Show main menu and handle user input via switch.
+        //menu.mainMenu();
+
+        //if ListMenu has been selected
+        switch (menu.displayListMenu()){
+            case "1":
+                menu.displayList(currentUser.getWantToWatch());
+                //Select from list here, or variation of.
+                break;
+            case "2":
+                menu.displayList(currentUser.getWatched());
+                //Select from list here, or variation of
+            case "3":
+                menu.mainMenu(currentUser);
+        }
+    }
+
     // UPs = username & password.
     // Anvendes til at sammenligne brugerinput med eksisterende burgeres brugernavn og password.
     public ArrayList<String> getExistingUPs() {

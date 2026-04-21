@@ -68,7 +68,7 @@ public class Menu {
         }
     }
 
-    public String displayListMenu(User currentUser){
+    public String displayListMenu(){
         String userInput = ui.promptText("""
                 Which list would you like to view?
                 
@@ -77,13 +77,8 @@ public class Menu {
                  2. Watched
                 
                  3. Back to Main Menu""");
-        switch (userInput){
-            case "1":
-                displayList(currentUser.getWantToWatch());
-                break;
-            case "2":
-                displayList(currentUser.getWatched());
-        }
+
+        return userInput;
     }
 
     //Do we keep ArrayList<String> vs media?
