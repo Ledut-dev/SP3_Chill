@@ -4,16 +4,25 @@ import java.util.ArrayList;
 public class Menu {
 
     TextUI ui = new TextUI();
+    User currentUser;
     public Menu(){
 
     }
 
+    public String printLoginPrompt(){
+        ui.displayMsg("INSERT SERVICE NAME HERE");
+        String userInput = ui.promptText("\nSelect an option:" + """
+                
+                1. Login
+                
+                2. Create new user""");
+        return userInput;
+    }
 
-    public void printMainMenu(User currentUser){ //mere lir, men skal vi vente til vi ved om vi har tid?
+    public String printMainMenu(){ //mere lir, men skal vi vente til vi ved om vi har tid?
 
-        ui.displayMsg("Welcome "+currentUser.getUserName()+"""
+        String userInput = ui.promptText("Welcome "+currentUser.getUsername()+"""
        
-     
        1. Search media
        
        2. Show saved lists
@@ -24,9 +33,10 @@ public class Menu {
        
        5. Quit""");
 
+        return userInput;
     }
 
-    public String displaySearchMenu(User currentUser){
+    public String printSearchMenu(){
         String input = ui.promptText("""
                 How do you want to search?
                 
@@ -43,16 +53,17 @@ public class Menu {
                 String titleSelection = ui.promptText("Enter title:");
                 return titleSelection;
             case "3":
-                printMainMenu(currentUser);
+                printMainMenu();
                 break;
             default:
                 ui.displayMsg("Please pick a valid option (numbers 1-3)");
-                displaySearchMenu(currentUser);
+                printSearchMenu();
                 break;
         }
+        return input;
     }
 
-    public String displayListMenu(){
+    public String printListMenu(){
         String userInput = ui.promptText("""
                 Which list would you like to view?
                 
@@ -66,9 +77,9 @@ public class Menu {
     }
 
     //Do we keep ArrayList<String> vs media?
-    public void displayList(ArrayList<String> list){
-        for (String s : list){
-            s.toString();
+    public void displayList(ArrayList<Media> list){
+        for (Media m : list){
+            m.toString();
         }
     }
 
@@ -80,10 +91,14 @@ public class Menu {
     }
 
     private String selectFromList(String message, Category[] list){
-        for (int i = 1; i <= list.length; i++){
+        for (int i = 1; i < list.length; i++){
             message += "\n" + (i) + ". " + list[i].toString();
         }
         return ui.promptText(message);
+    }
+
+    public void setCurrentUser(User u){
+        this.currentUser = u;
     }
 
 }

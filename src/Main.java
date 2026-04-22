@@ -2,10 +2,9 @@ public class Main {
 
     public static void main(){
 
-        Service PM = new Service();
+        Service service = new Service();
 
-        PM.createExistingUser("Olga Willadsen");
-        System.out.println(PM.printCurrentUser());
+        service.startMenuLoop();
 
 
 

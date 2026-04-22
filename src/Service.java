@@ -9,7 +9,7 @@ public class Service {
     private User currentUser;
     private Menu menu;
     private ArrayList<User> users;
-    TextUI ui;
+    TextUI ui = new TextUI();
 
     public Service() {
         this.menu = new Menu();
@@ -18,36 +18,96 @@ public class Service {
     }
 
 
-    public void menuLoop(){
-        //Show main menu and handle user input via switch.
-        //menu.mainMenu();
+    public void startMenuLoop() {
+        loginPrompt();
+        mainMenuOptions();
+    }
 
-        //if ListMenu has been selected
-        switch (menu.displayListMenu()){
+    private void listMenuOptions() {
+        switch (menu.printListMenu()) {
             case "1":
                 menu.displayList(currentUser.getWantToWatch());
-                //Select from list here, or variation of.
                 break;
             case "2":
                 menu.displayList(currentUser.getWatched());
-                //Select from list here, or variation of
+                break;
             case "3":
-                menu.mainMenu(currentUser);
+                mainMenuOptions();
+            default:
+                ui.displayMsg("Select an option: 1, 2, or 3.");
+                listMenuOptions();
         }
     }
 
-    public void menu (User currentUser){
+        public void loginPrompt () {
 
-        loginPrompt();
-        menu.printMainMenu(currentUser);
-        mainMenuOptions(currentUser);
-
-        // efter media.play() kaldes list.add(media) for at tilføje netop afspillede medie til current users watched list
-
-
-
-
+        switch (menu.printLoginPrompt()) {
+            case "1":
+                login();
+                break;
+            case "2":
+                String username = ui.promptText("Enter username:");
+                String password = ui.promptText("Enter password:");
+                createNewUser(username, password);
+                break;
+            default:
+                ui.displayMsg("Invalid option, please try again.");
+                loginPrompt();
+        }
     }
+
+        // ---- LOGIN ----
+        public void login () {
+            String username = ui.promptText("Enter username:").trim();
+            String password = ui.promptText("Enter password:").trim();
+
+            //Get UPS, separate data, then compare to see if userlogin is correct.
+            for (String s : getExistingUPs()) {
+                String[] userData = s.split(",");
+                String foundUsername = userData[0].trim();
+                String foundPassword = userData[1].trim();
+                if (username.equalsIgnoreCase(foundUsername) && password.equalsIgnoreCase(foundPassword)) {
+                    createExistingUser(foundUsername);
+                    return;
+                }
+            }
+            // UNSUCCESSFUL
+            System.out.println("\nLogin failed, try again?");
+            loginPrompt();
+        }
+
+        public void mainMenuOptions(){
+
+            switch (menu.printMainMenu()) {
+                case "1":
+                    searchMenuOptions();
+                    break;
+                case "2":
+                    listMenuOptions();
+                    break;
+                case "3":
+                    for (Media m : searchEngine.getMediaLibrary().getAllMovies()) {
+                        ui.displayMsg(m.toString());
+                        //vil gerne bruge ui.displaylist men har ikke en liste kun med titler? maaske ligemeget
+                    }
+                    break;
+                case "4":
+                    for (Media s : searchEngine.getMediaLibrary().getAllSeries()) {
+                        ui.displayMsg(s.toString());
+                    }
+                    break;
+                case "5": // quit and save data
+                    break;
+                default:
+                    ui.displayMsg("choose an option 1, 2, 3, 4 or 5.");
+                    mainMenuOptions();
+            }
+        }
+
+    private void searchMenuOptions() {
+        menu.printSearchMenu();
+    }
+
 
 
     // UPs = username & password.
@@ -78,184 +138,51 @@ public class Service {
         return null;
     }
 
-    void createExistingUser (String userName){ //hvad gør vi med existing users arraylister?
-        String [] attribute =getUserData(userName);
+    //Creating a user object by matching a username to datafile, as well as converting titles of media to media objects.
+    void createExistingUser(String userName) {
+        String[] attribute = getUserData(userName);
 
-        ArrayList <String> wantToWatch = new ArrayList<>();
+        ArrayList<Media> wantToWatch = new ArrayList<>();
         String line = attribute[2];
-        String [] titles= line.split(",");
-        for (String s: titles){
-            wantToWatch.add(s.trim());
+        String[] titles = line.split(",");
+        //Use saved String ArrayList to create Media objects for the users wantToWatch list
+        for (String s : titles) {
+            for (Media m : searchEngine.getMediaLibrary().getAllMedia())
+                if (s.equalsIgnoreCase(m.title))
+                    wantToWatch.add(m);
         }
 
-        ArrayList <String> watched = new ArrayList<>();
+        ArrayList<Media> watched = new ArrayList<>();
         String line2 = attribute[3];
-        String [] titles2= line2.split(",");
-        for (String t: titles2){
-            watched.add(t.trim());
-            }
+        String[] titles2 = line2.split(",");
+        for (String s : titles2) {
+            for (Media m : searchEngine.getMediaLibrary().getAllMedia())
+                if (s.equalsIgnoreCase(m.title))
+                    watched.add(m);
 
-        User u = new User(attribute[0].trim(),attribute[1].trim(), wantToWatch,watched);
-        currentUser=u;
+            User u = new User(attribute[0].trim(), attribute[1].trim(), wantToWatch, watched);
+            currentUser = u;
+            menu.setCurrentUser(u);
+            users.add(u);
+        }
+    }
+
+    //Called when a user doesn't login in, and instead creates an entirely new user.
+    void createNewUser(String name, String password){
+        User u = new User(name, password);
+        menu.setCurrentUser(u);
         users.add(u);
     }
-
-
-    void promptCreateNewUser(){
-        String userName=ui.promptText("Input username");
-        String passWord=ui.promptText("input password");
-
-        createNewUser(userName,passWord);
-
-    }
-
-    void createNewUser (String name, String password){
-        User u=new User(name, password);
-        users.add(u);
-    }
-
-
 
     public String printCurrentUser() {
-        return "currentUser=" + currentUser.getUserName() +
+        return "currentUser=" + currentUser.getUsername() +
                 '}' +
-                "password=" + currentUser.getPassWord() +
-                '}'+
+                "password=" + currentUser.getPassword() +
+                '}' +
                 "want to watch=" + currentUser.printWantToWatch() +
-                '}'+
+                '}' +
                 "watched=" + currentUser.printWatched() +
                 '}';
-
     }
-
-    public void loginPrompt() {
-        System.out.println("\nSTREAMINGCHILL");
-
-        while (true) {
-            System.out.print("\nHar du allerede en bruger? (ja/nej): ");
-            String svar = scanner.nextLine().trim().toLowerCase();
-
-            if (svar.equals("ja")) {
-                login();
-                break;
-            } else if (svar.equals("nej")) {
-                opretBruger();
-                break;
-            } else {
-                System.out.println("Skriv 'ja' eller 'nej'.");
-            }
-        }
-    }
-
-    // ---- LOGIN ----
-    public void login() {
-        while (true) {
-            System.out.print("\nBrugernavn: ");
-            String navn = scanner.nextLine();
-            System.out.print("Adgangskode: ");
-            String pass = scanner.nextLine();
-
-            User matchedUser = null;
-            for (User u : brugere) {
-                if (u.getUserName().equals(navn) && u.getPassWord().equals(pass)) {
-                    matchedUser = u;
-                    break;
-                }
-            }
-
-            if (matchedUser != null) {
-                // SUCCESS
-                currentUser = matchedUser;
-                System.out.println("\nVELKOMMEN " + navn.toUpperCase() + "!");
-                System.out.println("Du er nu logget ind.");
-                return;
-            } else {
-                // UNSUCCESSFUL
-                System.out.println("\nLOGIN FEJLEDE! Forkert brugernavn eller adgangskode.");
-
-                // RAINY DAY: bruger har ikke en konto
-                System.out.print("Har du ikke en bruger? (ja/nej): ");
-                String svar = scanner.nextLine().trim().toLowerCase();
-                if (svar.equals("ja")) {
-                    opretBruger();
-                    return;
-                }
-                System.out.println("Prøver igen...");
-            }
-        }
-    }
-
-    // ---- OPRET BRUGER ----
-    public void opretBruger() {
-        while (true) {
-            System.out.print("\nVælg brugernavn: ");
-            String navn = scanner.nextLine();
-
-            boolean taget = false;
-            for (User u : brugere) {
-                if (u.getUserName().equals(navn)) {
-                    System.out.println("Brugernavn er allerede taget!");
-                    taget = true;
-                    break;
-                }
-            }
-            if (taget) continue;
-
-            System.out.print("Vælg adgangskode: ");
-            String pass = scanner.nextLine();
-            System.out.print("Bekræft adgangskode: ");
-            String bekraeft = scanner.nextLine();
-
-            if (!pass.equals(bekraeft)) {
-                System.out.println("Adgangskoder matcher ikke!");
-                continue;
-            }
-
-            User nyBruger = new User(navn, pass, new ArrayList<>(), new ArrayList<>());
-            brugere.add(nyBruger);
-
-            try (FileWriter writer = new FileWriter("data/userData.csv", true)) {
-                writer.write(navn + ";" + pass + ";;\n");
-            } catch (IOException e) {
-                System.out.println("Fejl ved gemning af bruger.");
-            }
-
-            currentUser = nyBruger;
-            System.out.println("\nBruger oprettet!");
-            System.out.println("VELKOMMEN " + navn.toUpperCase() + "!");
-            return;
-        }
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
-    }
-    //TODO - Brugerrespons skal returneres til Service og håndeteres derfra, så de rigtige kald kan laves.
-    public void mainMenuOptions(User currentUser){
-
-        int userInput= ui.promptNumeric("input choice");
-        switch(userInput){
-
-            case 1: menu.displaySearchMenu(currentUser);
-                break;
-            case 2: menu.displayListMenu(currentUser);
-                break;
-            case 3:
-                for(Media m:searchEngine.getMediaLibrary().getAllMovies()){
-                    ui.displayMsg(m.toString());
-                    //vil gerne bruge ui.displaylist men har ikke en liste kun med titler? maaske ligemeget
-                } break;
-            case 4:
-                for(Media s:searchEngine.getMediaLibrary().getAllSeries()){
-                    ui.displayMsg(s.toString());
-            } break;
-            case 5: // quit and save data
-                break;
-            default: ui.displayMsg("choose an option 1, 2, 3, 4 or 5.");
-            mainMenuOptions(currentUser);
-        }
-    }
-
-
 }
 

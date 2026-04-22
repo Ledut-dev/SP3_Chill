@@ -2,59 +2,56 @@ import java.util.ArrayList;
 
 public class User {
 
-    private String userName;
-    private String passWord;
-    private ArrayList <String> wantToWatch; // media liste?
-    private ArrayList <String> watched; // media liste?
+    private String username;
+    private String password;
+    private ArrayList <Media> wantToWatch; // media liste?
+    private ArrayList <Media> watched; // media liste?
 
-    public User (String userName, String passWord){
-        this.userName=userName;
-        this.passWord=passWord;
+    public User (String username, String password){
+        this.username=username;
+        this.password=password;
         wantToWatch=new ArrayList<>();
         watched= new ArrayList<>();
     }
 
-    public User (String userName, String passWord, ArrayList<String> wantToWatch, ArrayList<String> watched){
-        this.userName=userName;
-        this.passWord=passWord;
+    public User (String username, String password, ArrayList<Media> wantToWatch, ArrayList<Media> watched){
+        this.username=username;
+        this.password=password;
         this.wantToWatch=wantToWatch;
         this.watched=watched;
     }
 
-    //Users lists are still Strings, can either have the lists be media itself, or potentially save just the titles as strings,
-    //and later match the titles to corresponding media object in MediaLibrary allMedia list.
-    //That way it's not needed to save all media data to each user, but we can still create media objects when loading current user.
     public void addMediaToList(Media m, ArrayList<Media> list){
         list.add(m);
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public ArrayList<String> getWantToWatch(){
+    public ArrayList<Media> getWantToWatch(){
         return this.wantToWatch;
     }
 
-    public ArrayList<String> getWatched(){
+    public ArrayList<Media> getWatched(){
         return this.wantToWatch;
     }
 
     public String printWantToWatch() {
         String output="";
-        for (String s:wantToWatch){
-            output+=(s+", ");
+        for (Media m:wantToWatch){
+            output+=(m.title+", ");
         }return output;
     }
 
     public String printWatched() {
         String output="";
-        for (String s:watched){
-            output+=(s+", ");
+        for (Media m:watched){
+            output+=(m.title+", ");
         }return output;
     }
 
