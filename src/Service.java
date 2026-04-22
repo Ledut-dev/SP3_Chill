@@ -184,5 +184,37 @@ public class Service {
                 "watched=" + currentUser.printWatched() +
                 '}';
     }
+
+
+    //gem alle linjer fra CSV
+    //lav en lang String af et user-objekt
+    //Stringjoiner?
+
+    public ArrayList<String> userDataString(ArrayList<User> users){
+        ArrayList <String> allUsersData=new ArrayList<>();
+        for(User u:users) {
+            String userdata = currentUser.getUsername() + ";" + currentUser.getPassword() + ";";
+            for (Media m : currentUser.getWantToWatch()) {
+                if (currentUser.getWantToWatch().getLast().title.equals(m.title)) {
+                    userdata += m.title;
+                } else userdata += m.title + ",";
+            }
+            userdata += ";";
+            for (Media s : currentUser.getWatched()) {
+                if (currentUser.getWatched().getLast().title.equals(s.title)) {
+                    userdata += s.title;
+                } else userdata += s.title + ",";
+            }
+            allUsersData.add(userdata);
+
+        } return allUsersData;
+    }
+
+
+
+    }
+
+
+
 }
 
