@@ -198,36 +198,6 @@ public class Service {
         return null;
     }
 
-    //Seemingly not needed when swapping to creating all users as objects on program load.
-//    //Creating a user object by matching a username to datafile, as well as converting titles of media to media objects.
-//    void createExistingUser(String userName) {
-//        String[] attribute = getUserData(userName);
-//
-//        ArrayList<Media> wantToWatch = new ArrayList<>();
-//        String line = attribute[2];
-//        String[] titles = line.split(",");
-//        //Use saved String ArrayList to create Media objects for the users wantToWatch list
-//        for (String s : titles) {
-//            for (Media m : searchEngine.getMediaLibrary().getAllMedia())
-//                if (s.equalsIgnoreCase(m.title))
-//                    wantToWatch.add(m);
-//        }
-//
-//        ArrayList<Media> watched = new ArrayList<>();
-//        String line2 = attribute[3];
-//        String[] titles2 = line2.split(",");
-//        for (String s : titles2) {
-//            for (Media m : searchEngine.getMediaLibrary().getAllMedia())
-//                if (s.equalsIgnoreCase(m.title))
-//                    watched.add(m);
-//
-//            User u = new User(attribute[0].trim(), attribute[1].trim(), wantToWatch, watched);
-//            currentUser = u;
-//            menu.setCurrentUser(u);
-//            users.add(u);
-//        }
-//    }
-
     //Called when a user doesn't login in, and instead creates an entirely new user.
     void createNewUser(String name, String password) {
         User u = new User(name, password);
