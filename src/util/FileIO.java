@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class FileIO {
 
-    public void saveData(ArrayList<String> list, String path){
+    public static void saveData(ArrayList<String> list, String path){
         try {
 
             FileWriter writer = new FileWriter(path);

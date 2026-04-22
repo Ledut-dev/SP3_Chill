@@ -77,6 +77,15 @@ public class Menu {
         return userInput;
     }
 
+    public String printQuitMenu(){
+        String userInput = ui.promptText("""
+                Are you sure you want to quit?
+                
+                1. Quit
+                
+                2. Return to Main Menu""");
+    }
+
     //Do we keep ArrayList<String> vs media?
     public void displayList(ArrayList<Media> list){
         for (Media m : list){

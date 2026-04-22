@@ -80,7 +80,8 @@ public class Service {
                     ui.displayMsg(s.toString());
                 }
                 break;
-            case "5": // quit and save data
+            case "5":
+                quitMenuOptions();
                 break;
             default:
                 ui.displayMsg("choose an option 1, 2, 3, 4 or 5.");
@@ -150,6 +151,17 @@ public class Service {
             default:
                 ui.displayMsg("Please pick a valid option (numbers 1-4)");
                 mediaMenuOptions();
+        }
+    }
+
+    public void quitMenuOptions(){
+        switch(menu.printQuitMenu()){
+            case "1":
+                FileIO.saveData(userDataString(), "data/userData.csv");
+                break;
+            case "2":
+                mainMenuOptions();
+                break;
         }
     }
 
