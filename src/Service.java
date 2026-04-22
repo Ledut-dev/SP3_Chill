@@ -119,12 +119,15 @@ public class Service {
         switch (menu.printListMenu()) {
             case "1":
                 menu.displayList(currentUser.getWantToWatch());
+                listMenuOptions();
                 break;
             case "2":
                 menu.displayList(currentUser.getWatched());
+                listMenuOptions();
                 break;
             case "3":
                 mainMenuOptions();
+                break;
             default:
                 ui.displayMsg("Select an option: 1, 2, or 3.");
                 listMenuOptions();

@@ -90,7 +90,7 @@ public class Menu {
     //Do we keep ArrayList<String> vs media?
     public void displayList(ArrayList<Media> list){
         for (Media m : list){
-            m.toString();
+            ui.displayMsg(m.toString());
         }
     }
 
