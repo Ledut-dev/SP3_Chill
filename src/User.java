@@ -4,8 +4,9 @@ public class User {
 
     private String username;
     private String password;
-    private ArrayList <Media> wantToWatch; // media liste?
-    private ArrayList <Media> watched; // media liste?
+    private ArrayList <Media> wantToWatch;
+    private ArrayList <Media> watched;
+    private Media currentMedia;
 
     public User (String username, String password){
         this.username=username;
@@ -21,8 +22,20 @@ public class User {
         this.watched=watched;
     }
 
-    public void addMediaToList(Media m, ArrayList<Media> list){
-        list.add(m);
+    public void addMediaToWatched(){
+      this.watched.add(currentMedia);
+    }
+
+    public void addMediaToWantToWatch(){
+        this.wantToWatch.add(currentMedia);
+    }
+
+    public void removeFromWantToWatch(){
+        for (Media m : watched){
+            if (currentMedia.title.equalsIgnoreCase(m.title)){
+                wantToWatch.remove(m);
+            }
+        }
     }
 
     public String getUsername() {
@@ -39,6 +52,14 @@ public class User {
 
     public ArrayList<Media> getWatched(){
         return this.wantToWatch;
+    }
+
+    public Media getCurrentMedia(){
+        return this.currentMedia;
+    }
+
+    public void setCurrentMedia(Media m){
+        this.currentMedia = m;
     }
 
     public String printWantToWatch() {

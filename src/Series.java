@@ -11,7 +11,7 @@ public class Series extends Media{
         this.seasons = seasons;
     }
     public void play(){
-       System.out.println("Now playing: "+title+ "\nRelease year: "+releasePeriod);
+       System.out.println("Now playing: "+title+ "- "+releasePeriod);
        //kunne være nice at skrive season + episode, kræver flere klasser
         //media tilføjes til users liste via Service
 

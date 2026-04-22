@@ -11,7 +11,8 @@ public class Menu {
 
     public String printLoginPrompt(){
         ui.displayMsg("INSERT SERVICE NAME HERE");
-        String userInput = ui.promptText("\nSelect an option:" + """
+        String userInput = ui.promptText("""
+                Select an option:
                 
                 1. Login
                 
@@ -45,21 +46,7 @@ public class Menu {
                 2. Search by title
                 
                 3. Back to Main Menu""");
-        switch (input){
-            case "1":
-                String categorySelection = selectFromList("Select a category:", Category.values());
-                return categorySelection;
-            case "2":
-                String titleSelection = ui.promptText("Enter title:");
-                return titleSelection;
-            case "3":
-                printMainMenu();
-                break;
-            default:
-                ui.displayMsg("Please pick a valid option (numbers 1-3)");
-                printSearchMenu();
-                break;
-        }
+
         return input;
     }
 
@@ -76,6 +63,20 @@ public class Menu {
         return userInput;
     }
 
+    public String printMediaMenu(){
+        String userInput = ui.promptText("""
+                What would you like to do?
+                
+                1. Play Media
+                
+                2. Save to Want to Watch
+                
+                3. Remove from Want to
+                
+                4. Back to Main Menu""");
+        return userInput;
+    }
+
     //Do we keep ArrayList<String> vs media?
     public void displayList(ArrayList<Media> list){
         for (Media m : list){
@@ -83,16 +84,16 @@ public class Menu {
         }
     }
 
-    private String selectFromList(String message, ArrayList<Media> list){
+    public String selectFromList(String message, ArrayList<Media> list){
         for (int i = 1; i <= list.size(); i++){
-            message += "\n" + (i) + ". " + list.get(i).toString();
+            message += "\n" + (i) + ". " + list.get(i-1).toString();
         }
         return ui.promptText(message);
     }
 
-    private String selectFromList(String message, Category[] list){
-        for (int i = 1; i < list.length; i++){
-            message += "\n" + (i) + ". " + list[i].toString();
+    public String selectFromList(String message, Category[] list){
+        for (int i = 1; i <= list.length; i++){
+            message += "\n" + (i) + ". " + list[i-1].toString();
         }
         return ui.promptText(message);
     }

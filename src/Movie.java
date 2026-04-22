@@ -12,8 +12,7 @@ public class Movie extends Media{
     }
 
     public void play(){
-        System.out.println("Now playing: "+title+ "\nRelease year: "+releaseYear
-             );
+        System.out.println("Now playing: "+title+ "- " + releaseYear);
         //media tilføjes til users liste via Service
 
 
