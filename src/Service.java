@@ -1,6 +1,7 @@
 import util.FileIO;
 import util.TextUI;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Service {
@@ -15,6 +16,7 @@ public class Service {
         this.menu = new Menu();
         this.searchEngine = new SearchEngine();
         users = new ArrayList<User>();
+        createAllUsers();
     }
 
 
@@ -23,7 +25,7 @@ public class Service {
         mainMenuOptions();
     }
 
-    public void loginPrompt () {
+    public void loginPrompt() {
 
         switch (menu.printLoginPrompt()) {
             case "1":
@@ -41,17 +43,15 @@ public class Service {
     }
 
     // ---- LOGIN ----
-    public void login () {
+    public void login() {
         String username = ui.promptText("Enter username:").trim();
         String password = ui.promptText("Enter password:").trim();
 
         //Get UPS, separate data, then compare to see if userlogin is correct.
-        for (String s : getExistingUPs()) {
-            String[] userData = s.split(",");
-            String foundUsername = userData[0].trim();
-            String foundPassword = userData[1].trim();
-            if (username.equalsIgnoreCase(foundUsername) && password.equals(foundPassword)) {
-                createExistingUser(foundUsername);
+        for (User u : users) {
+            if (username.equalsIgnoreCase(u.getUsername()) && password.equals(u.getPassword())) {
+                currentUser = u;
+                menu.setCurrentUser(u);
                 return;
             }
         }
@@ -60,7 +60,7 @@ public class Service {
         loginPrompt();
     }
 
-    public void mainMenuOptions(){
+    public void mainMenuOptions() {
 
         switch (menu.printMainMenu()) {
             case "1":
@@ -90,12 +90,13 @@ public class Service {
     }
 
     public void searchMenuOptions() {
-        switch (menu.printSearchMenu()){
+        switch (menu.printSearchMenu()) {
             case "1":
                 String categorySelection = menu.selectFromList("Select a category:", Category.values());
                 ArrayList<Media> filteredMediaByCategory = searchEngine.filterByCategory(categorySelection);
                 int mediaChoice = Integer.parseInt(menu.selectFromList("Select a Media:", filteredMediaByCategory));
-                currentUser.setCurrentMedia(filteredMediaByCategory.get(mediaChoice-1));
+                currentUser.setCurrentMedia(filteredMediaByCategory.get(mediaChoice - 1));
+                mediaMenuOptions();
                 break;
             case "2":
                 String titleSelection = ui.promptText("Enter title:");
@@ -130,8 +131,8 @@ public class Service {
         }
     }
 
-    public void mediaMenuOptions(){
-        switch (menu.printMediaMenu()){
+    public void mediaMenuOptions() {
+        switch (menu.printMediaMenu()) {
             case "1":
                 currentUser.addMediaToWatched();
                 currentUser.getCurrentMedia().play();
@@ -154,8 +155,8 @@ public class Service {
         }
     }
 
-    public void quitMenuOptions(){
-        switch(menu.printQuitMenu()){
+    public void quitMenuOptions() {
+        switch (menu.printQuitMenu()) {
             case "1":
                 FileIO.saveData(userDataString(), "data/userData.csv");
                 break;
@@ -164,7 +165,6 @@ public class Service {
                 break;
         }
     }
-
 
 
     // UPs = username & password.
@@ -195,42 +195,79 @@ public class Service {
         return null;
     }
 
-    //Creating a user object by matching a username to datafile, as well as converting titles of media to media objects.
-    void createExistingUser(String userName) {
-        String[] attribute = getUserData(userName);
-
-        ArrayList<Media> wantToWatch = new ArrayList<>();
-        String line = attribute[2];
-        String[] titles = line.split(",");
-        //Use saved String ArrayList to create Media objects for the users wantToWatch list
-        for (String s : titles) {
-            for (Media m : searchEngine.getMediaLibrary().getAllMedia())
-                if (s.equalsIgnoreCase(m.title))
-                    wantToWatch.add(m);
-        }
-
-        ArrayList<Media> watched = new ArrayList<>();
-        String line2 = attribute[3];
-        String[] titles2 = line2.split(",");
-        for (String s : titles2) {
-            for (Media m : searchEngine.getMediaLibrary().getAllMedia())
-                if (s.equalsIgnoreCase(m.title))
-                    watched.add(m);
-
-            User u = new User(attribute[0].trim(), attribute[1].trim(), wantToWatch, watched);
-            currentUser = u;
-            menu.setCurrentUser(u);
-            users.add(u);
-        }
-    }
+    //Seemingly not needed when swapping to creating all users as objects on program load.
+//    //Creating a user object by matching a username to datafile, as well as converting titles of media to media objects.
+//    void createExistingUser(String userName) {
+//        String[] attribute = getUserData(userName);
+//
+//        ArrayList<Media> wantToWatch = new ArrayList<>();
+//        String line = attribute[2];
+//        String[] titles = line.split(",");
+//        //Use saved String ArrayList to create Media objects for the users wantToWatch list
+//        for (String s : titles) {
+//            for (Media m : searchEngine.getMediaLibrary().getAllMedia())
+//                if (s.equalsIgnoreCase(m.title))
+//                    wantToWatch.add(m);
+//        }
+//
+//        ArrayList<Media> watched = new ArrayList<>();
+//        String line2 = attribute[3];
+//        String[] titles2 = line2.split(",");
+//        for (String s : titles2) {
+//            for (Media m : searchEngine.getMediaLibrary().getAllMedia())
+//                if (s.equalsIgnoreCase(m.title))
+//                    watched.add(m);
+//
+//            User u = new User(attribute[0].trim(), attribute[1].trim(), wantToWatch, watched);
+//            currentUser = u;
+//            menu.setCurrentUser(u);
+//            users.add(u);
+//        }
+//    }
 
     //Called when a user doesn't login in, and instead creates an entirely new user.
-    void createNewUser(String name, String password){
+    void createNewUser(String name, String password) {
         User u = new User(name, password);
         currentUser = u;
         menu.setCurrentUser(u);
         users.add(u);
     }
+
+    void createAllUsers() {
+        ArrayList<String> userData = FileIO.readData("data/userData.csv");
+
+        for (String s : userData) {
+
+            ArrayList<Media> wantToWatch = new ArrayList<>();
+            ArrayList<Media> watched = new ArrayList<>();
+
+            String[] line = s.split(";");
+
+            String username = line[0].trim();
+            String password = line[1].trim();
+
+
+            String wtw = line[2].trim();
+            String[] movies = wtw.split(",");
+            //Use saved String ArrayList to create Media objects for the users wantToWatch list
+            for (String movie : movies) {
+                for (Media m : searchEngine.getMediaLibrary().getAllMedia())
+                    if (movie.equalsIgnoreCase(m.title))
+                        wantToWatch.add(m);
+            }
+
+            String w = line[3].trim();
+            String[] series = w.split(",");
+            for (String serie : series) {
+                for (Media t : searchEngine.getMediaLibrary().getAllMedia())
+                    if (serie.equalsIgnoreCase(t.title))
+                        watched.add(t);
+            }
+            User u = new User(username, password, wantToWatch, watched);
+            users.add(u);
+        }
+    }
+
 
     public String printCurrentUser() {
         return "currentUser=" + currentUser.getUsername() +
@@ -248,31 +285,42 @@ public class Service {
     //lav en lang String af et user-objekt
     //Stringjoiner?
 
-    public ArrayList<String> userDataString(ArrayList<User> users){
+    public ArrayList<String> userDataString(){
         ArrayList <String> allUsersData=new ArrayList<>();
         for(User u:users) {
-            String userdata = currentUser.getUsername() + ";" + currentUser.getPassword() + ";";
-            for (Media m : currentUser.getWantToWatch()) {
-                if (currentUser.getWantToWatch().getLast().title.equals(m.title)) {
-                    userdata += m.title;
-                } else userdata += m.title + ",";
+            String userdata = u.getUsername() + ";" + u.getPassword() + ";";
+            if (!u.getWantToWatch().isEmpty()) {
+                for (Media m : u.getWantToWatch()) {
+                    if (u.getWantToWatch().getLast().title.equals(m.title)) {
+                        userdata += m.title;
+                    } else userdata += m.title + ",";
+                }
+            }
+            else {
+                userdata += "NoMedia";
+                }
+
+            userdata += ";";
+            if (!u.getWatched().isEmpty()) {
+                for (Media s : u.getWatched()) {
+                    if (u.getWatched().getLast().title.equals(s.title)) {
+                        userdata += s.title;
+                    } else userdata += s.title + ",";
+                }
+            }
+            else {
+                userdata += "NoMedia";
             }
             userdata += ";";
-            for (Media s : currentUser.getWatched()) {
-                if (currentUser.getWatched().getLast().title.equals(s.title)) {
-                    userdata += s.title;
-                } else userdata += s.title + ",";
-            }
             allUsersData.add(userdata);
 
         } return allUsersData;
     }
 
-
-
+    public ArrayList<User> getUsers() {
+        return this.users;
     }
-
-
-
 }
+
+
 

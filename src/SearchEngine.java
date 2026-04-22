@@ -34,7 +34,7 @@ public class SearchEngine {
         ArrayList<Media> filteredList = new ArrayList<>();
         for (Media media : mediaLibrary.getAllMedia()){
             for (Category category : media.categories){
-                if (Category.values()[categorySelection].equals(category)){
+                if (Category.values()[categorySelection-1].equals(category)){
                     filteredList.add(media);
                 }
             }

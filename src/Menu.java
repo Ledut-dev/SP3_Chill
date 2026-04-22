@@ -84,6 +84,7 @@ public class Menu {
                 1. Quit
                 
                 2. Return to Main Menu""");
+        return userInput;
     }
 
     //Do we keep ArrayList<String> vs media?

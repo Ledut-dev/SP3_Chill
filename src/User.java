@@ -51,7 +51,7 @@ public class User {
     }
 
     public ArrayList<Media> getWatched(){
-        return this.wantToWatch;
+        return this.watched;
     }
 
     public Media getCurrentMedia(){
