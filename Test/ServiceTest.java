@@ -13,10 +13,10 @@ class ServiceTest {
     }
 
     @Test
-    void userDataString() {
+    void createUserDataString() {
 
 
-        String actual= service.userDataString().getFirst();
+        String actual= service.createUserDataString().getFirst();
         String expected="Ledut;password;The Godfather;Some Like It Hot;";
 
         assertEquals(expected, actual);

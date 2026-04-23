@@ -62,20 +62,6 @@ public class User {
         this.currentMedia = m;
     }
 
-    public String printWantToWatch() {
-        String output="";
-        for (Media m:wantToWatch){
-            output+=(m.title+", ");
-        }return output;
-    }
-
-    public String printWatched() {
-        String output="";
-        for (Media m:watched){
-            output+=(m.title+", ");
-        }return output;
-    }
-
 
 
 

@@ -42,12 +42,7 @@ public class SearchEngine {
         return filteredList;
     }
 
-    // Tager en filtreret liste og beder bruger vælge en film derfra. Brugeren tages herefter til MediaOptions.
-    public void displayFilteredList(ArrayList<Media> filteredList){
-//        int mediaSelection = selectFromList("Select a title:", filteredList)-1;
-//        textUI.displayMsg("You have chosen " + filteredList.get(mediaSelection).title);
-        // MediaOptions.displayMediaOptions;
-    }
+
 
     public MediaLibrary getMediaLibrary(){
         return mediaLibrary;

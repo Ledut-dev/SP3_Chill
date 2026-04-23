@@ -8,20 +8,22 @@ enum Category
 
 class Service {
 - User currentUser
-- MediaLibrary mediaLibrary
+- SearchEngine searchEngine
 - Menu menu
 - ArrayList<User> users
 -TextUI ui
-+ User createUser()
-+getExistingUPs()
-+getUserData()
-+createExistingUser()
-+createNewUser()
-+promptCreateNewUser()
-+printCurrentUser()
++startMenuLoop()
 +loginPrompt()
 +login()
-+getCurrentUser()
++mainMenuOptions()
++searchMenuOptions()
++listMenuOptions()
++mediaMenuOptions()
++quitMenuOptions()
++createNewUser(String, String)
++createAllUsers()
++createUserDataString()
++getUsers
 }
 
 class MediaLibrary{
@@ -29,26 +31,30 @@ class MediaLibrary{
 - ArrayList <Media> allSeries
 - ArrayList <Media> allMovies
 +createMedia()
-+ ArrayList <Media> getAllMedia()
-+ ArrayList <Media> getAllSeries()
-+ ArrayList <Media> getAllMovies()
++ ArrayList<Media> getAllMedia()
++ ArrayList<Media> getAllSeries()
++ ArrayList<Media> getAllMovies()
 
 }
 class Menu{
 - TextUI ui
-+ void mainMenu(currentUser)
-+ String mainMenuOptions(currentUser)
-+ String displayListMenu(currentUser)
-+ String displayListOptions(currentUser)
-+ String displaySearchMenu (currentUser)
-+ MediaLibrary getMediaLibrary(currentUser)
--int selectFromList(String, ArrayList<Media>)
--int selectFromList(String, Category[])
+- User currentUser
++String printLoginPrompt()
++String printMainMenu()
++String printSearchMenu()
++String printListMenu()
++String printMediaMenu()
++String printQuitMenu()
++String selectFromList(String, ArrayList<Media>)
++String selectFromList(String, Category[])
++setCurrentUser(User)
 }
+
 class SearchEngine{
-+ Media filterByTitle()
-+ArrayList <Media> filterByCategory()
-+ArrayList <Media> displayFilteredList(ArrayList<Media>)
+- MediaLibrary mediaLibrary
++Media filterByTitle(String)
++Media filterByCategory(String)
++MediaLibrary getMediaLibrary()
 
 
 }
@@ -57,19 +63,20 @@ abstract class Media {
 # String title
 # ArrayList<Category> category
 # double rating
-+ void {abstract} play()
++{abstract} play()
 +{abstract} String toString()
 }
 
-
 class Movie extends Media{
 - int releaseYear
++ play()
 + String toString()
 }
 
 class Series extends Media{
 - String releasePeriod
 - ArrayList<String> seasons
++ play()
 + String toString()
 }
 
@@ -79,15 +86,15 @@ class User{
 - String password
 - ArrayList<String> wantToWatch
 - ArrayList<String> watched
+- Media currentMedia
 + User(String username, String password)
 + User(String username, String password, ArrayList<Media> wantToWatch, ArrayList<Media> watched)
-+ void addMediaToList(Media media, ArrayList<Media> list)
-+getUserName()
-+getPassWord()
-+getWantToWatch()
-+getWatched()
-+String printWantToWatch()
-+String printWatched()
++ addMediaToList(Media media, ArrayList<Media> list)
++ removeFromWantToWatch()
++String getUsername()
++String getPassword()
++ArrayList<Media> getWantToWatch()
++ArrayList<Media> getWatched()
 }
 
 package "util" {
@@ -102,7 +109,7 @@ class TextUI {
 }
 
 class FileIO{
-+ void saveData(ArrayList<String> data, String path)
++ saveData(ArrayList<String>, String path)
 + ArrayList<String> readData(String path)
 }
 }
@@ -114,7 +121,9 @@ Service *-- SearchEngine
 Service *-- User
 Service *-- Menu
 Service *-- TextUI
-Menu *---- TextUI
+Menu *--- User
+Menu *----- TextUI
+
 
 
 @enduml

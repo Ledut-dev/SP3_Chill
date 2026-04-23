@@ -87,25 +87,28 @@ public class Menu {
         return userInput;
     }
 
-    //Do we keep ArrayList<String> vs media?
-    public void displayList(ArrayList<Media> list){
-        for (Media m : list){
-            ui.displayMsg(m.toString());
-        }
-    }
-
     public String selectFromList(String message, ArrayList<Media> list){
-        for (int i = 1; i <= list.size(); i++){
-            message += "\n" + (i) + ". " + list.get(i-1).toString();
+            for (int i = 1; i <= list.size(); i++) {
+                message += "\n" + (i) + ". " + list.get(i - 1).toString();
+            }
+            String userInput = ui.promptText(message);
+        if (Integer.parseInt(userInput) > list.size()){
+            ui.displayMsg("Please pick a valid option");
+            userInput = ui.promptText(message);
         }
-        return ui.promptText(message);
+        return userInput;
     }
 
     public String selectFromList(String message, Category[] list){
-        for (int i = 1; i <= list.length; i++){
-            message += "\n" + (i) + ". " + list[i-1].toString();
-        }
-        return ui.promptText(message);
+            for (int i = 1; i <= list.length; i++) {
+                message += "\n" + (i) + ". " + list[i - 1].toString();
+            }
+            String userInput = ui.promptText(message);
+            if (Integer.parseInt(userInput) > list.length){
+                ui.displayMsg("Please pick a valid option");
+                userInput = ui.promptText(message);
+            }
+        return userInput;
     }
 
     public void setCurrentUser(User u){

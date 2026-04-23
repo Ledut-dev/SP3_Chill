@@ -1,7 +1,6 @@
 import util.FileIO;
 import util.TextUI;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class Service {
@@ -118,12 +117,14 @@ public class Service {
     private void listMenuOptions() {
         switch (menu.printListMenu()) {
             case "1":
-                menu.displayList(currentUser.getWantToWatch());
-                listMenuOptions();
+                int mediaChoiceCase1 = Integer.parseInt(menu.selectFromList("Select a Media:", currentUser.getWantToWatch()));
+                currentUser.setCurrentMedia(currentUser.getWantToWatch().get(mediaChoiceCase1 - 1));
+                mediaMenuOptions();
                 break;
             case "2":
-                menu.displayList(currentUser.getWatched());
-                listMenuOptions();
+                int mediaChoiceCase2 = Integer.parseInt(menu.selectFromList("Select a Media:", currentUser.getWatched()));
+                currentUser.setCurrentMedia(currentUser.getWatched().get(mediaChoiceCase2 - 1));
+                mediaMenuOptions();
                 break;
             case "3":
                 mainMenuOptions();
@@ -161,7 +162,7 @@ public class Service {
     public void quitMenuOptions() {
         switch (menu.printQuitMenu()) {
             case "1":
-                FileIO.saveData(userDataString(), "data/userData.csv");
+                FileIO.saveData(createUserDataString(), "data/userData.csv");
                 break;
             case "2":
                 mainMenuOptions();
@@ -170,33 +171,8 @@ public class Service {
     }
 
 
-    // UPs = username & password.
-    // Anvendes til at sammenligne brugerinput med eksisterende burgeres brugernavn og password.
-    public ArrayList<String> getExistingUPs() {
-        ArrayList<String> UPs = new ArrayList<>();
-        ArrayList<String> userData = FileIO.readData("data/userData.csv");
-        for (String line : userData) {
-            String[] attributes = line.split(";");
-            String username = attributes[0].trim();
-            String password = attributes[1].trim();
-            UPs.add(username + ", " + password);
-        }
-        return UPs;
-    }
+    //
 
-    // Tager et brugernavn og returnere data fra CSV-filen.
-    // Anvendes til at oprette en instance af User, når en bruger logger ind.
-    public String[] getUserData(String username) {
-        ArrayList<String> userData = FileIO.readData("data/userData.csv");
-        for (String line : userData) {
-            String[] attributes = line.split(";");
-            if (username.equals(attributes[0].trim())) {
-                //Inden return skal denne laves om til ArrayList<String> da User tager ArrayList.
-                return line.split(";");
-            }
-        }
-        return null;
-    }
 
     //Called when a user doesn't login in, and instead creates an entirely new user.
     void createNewUser(String name, String password) {
@@ -241,24 +217,10 @@ public class Service {
         }
     }
 
-
-    public String printCurrentUser() {
-        return "currentUser=" + currentUser.getUsername() +
-                '}' +
-                "password=" + currentUser.getPassword() +
-                '}' +
-                "want to watch=" + currentUser.printWantToWatch() +
-                '}' +
-                "watched=" + currentUser.printWatched() +
-                '}';
-    }
-
-
     //gem alle linjer fra CSV
     //lav en lang String af et user-objekt
     //Stringjoiner?
-
-    public ArrayList<String> userDataString(){
+    public ArrayList<String> createUserDataString(){
         ArrayList <String> allUsersData=new ArrayList<>();
         for(User u:users) {
             String userdata = u.getUsername() + ";" + u.getPassword() + ";";
