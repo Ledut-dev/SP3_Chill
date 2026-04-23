@@ -34,23 +34,23 @@ public class Sandbox {
         return null;
     }
 
-    public String printCurrentUser() {
-        return "currentUser=" + currentUser.getUsername() +
-                '}' +
-                "password=" + currentUser.getPassword() +
-                '}' +
-                "want to watch=" + currentUser.printWantToWatch() +
-                '}' +
-                "watched=" + currentUser.printWatched() +
-                '}';
-    }
+//    public String printCurrentUser() {
+//        return "currentUser=" + currentUser.getUsername() +
+//                '}' +
+//                "password=" + currentUser.getPassword() +
+//                '}' +
+//                "want to watch=" + currentUser.printWantToWatch() +
+//                '}' +
+//                "watched=" + currentUser.printWatched() +
+//                '}';
+//    }
 
-    //Do we keep ArrayList<String> vs media?
-    public void displayList(ArrayList<Media> list){
-        for (Media m : list){
-            ui.displayMsg(m.toString());
-        }
-    }
+//    //Do we keep ArrayList<String> vs media?
+//    public void displayList(ArrayList<Media> list){
+//        for (Media m : list){
+//            ui.displayMsg(m.toString());
+//        }
+//    }
 
     // Tager en filtreret liste og beder bruger vælge en film derfra. Brugeren tages herefter til MediaOptions.
     public void displayFilteredList(ArrayList<Media> filteredList){

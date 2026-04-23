@@ -22,18 +22,16 @@ public class User {
         this.watched=watched;
     }
 
-    public void addMediaToWatched(){
-      this.watched.add(currentMedia);
-    }
-
-    public void addMediaToWantToWatch(){
-        this.wantToWatch.add(currentMedia);
+    public void addMediaToList(ArrayList<Media> list)
+    {
+        list.add(currentMedia);
     }
 
     public void removeFromWantToWatch(){
-        for (Media m : watched){
+        for (Media m : wantToWatch){
             if (currentMedia.title.equalsIgnoreCase(m.title)){
                 wantToWatch.remove(m);
+                break;
             }
         }
     }

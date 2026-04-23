@@ -138,12 +138,12 @@ public class Service {
     public void mediaMenuOptions() {
         switch (menu.printMediaMenu()) {
             case "1":
-                currentUser.addMediaToWatched();
+                currentUser.addMediaToList(currentUser.getWatched());
                 currentUser.getCurrentMedia().play();
                 mediaMenuOptions();
                 break;
             case "2":
-                currentUser.addMediaToWantToWatch();
+                currentUser.addMediaToList(currentUser.getWantToWatch());
                 mediaMenuOptions();
                 break;
             case "3":
