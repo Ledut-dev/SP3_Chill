@@ -23,7 +23,7 @@ class Service {
 +createNewUser(String, String)
 +createAllUsers()
 +createUserDataString()
-+getUsers
++getUsers()
 }
 
 class MediaLibrary{
